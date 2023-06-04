@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "declaration": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "ESNext",
+        "lib": [
+            "DOM",
+            "ESNext",
+        ],
+        "jsx": "react",
+        "jsxFactory": "h",
+        "moduleResolution": "nodenext"
+    }
+}

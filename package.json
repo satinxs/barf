@@ -1,0 +1,22 @@
+{
+  "name": "@satinxs/barf",
+  "version": "0.0.1",
+  "description": "A Barebones And Reactive Framework",
+  "main": "barf.ts",
+  "keywords": [
+    "reactive",
+    "react",
+    "DOM"
+  ],
+  "author": "satinxs",
+  "license": "MIT",
+  "scripts": {
+    "build-examples": "esbuild examples/index.tsx --bundle --minify --outdir=dist --sourcemap=external --analyze",
+    "serve-examples": "esbuild examples/index.tsx --bundle --watch --servedir=. --outdir=dist --sourcemap"
+  },
+  "devDependencies": {
+    "@satinxs/router": "github:satinxs/router",
+    "esbuild": "^0.17.19",
+    "simpledotcss": "^2.2.1"
+  }
+}
