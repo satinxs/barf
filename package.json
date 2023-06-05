@@ -15,7 +15,7 @@
     "serve-examples": "esbuild examples/index.tsx --bundle --watch --servedir=. --outdir=dist --sourcemap"
   },
   "devDependencies": {
-    "@satinxs/router": "github:satinxs/router",
+    "@satinxs/router": "^0.0.1",
     "esbuild": "^0.17.19",
     "simpledotcss": "^2.2.1"
   }
