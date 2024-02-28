@@ -1,4 +1,4 @@
-import { $, h, mount, IElement, Observable } from '../barf';
+import { $, h, render, Observable } from '../barf';
 import { HashRouter } from "@satinxs/router";
 import "simpledotcss/simple.css";
 
@@ -12,14 +12,9 @@ class ToDoItem {
     }
 
     toElement() {
-        return <li
-            key={this.title()} //Here we call the observable because the key has to be a string
-            class={$(() => this.done() ? 'strikethrough' : '')}
-        >
+        return <li className={$(() => this.done() ? 'strikethrough' : '')}>
             <span style="margin-right:1rem">{this.title}</span>
-            <button
-                onclick={() => { console.log(this, this.done()); this.done(!this.done()); }}
-            >
+            <button onclick={() => this.done(!this.done())}>
                 {$(() => this.done() ? '☑' : '☐')}
             </button>
         </li>;
@@ -81,9 +76,9 @@ function ErrorView({ error }: { error: any }) {
 }
 
 function App() {
-    const element = $<IElement>(<Index />);
+    const element = $(<Index />);
 
-    const router = new HashRouter<IElement>()
+    new HashRouter()
         .build({
             '/': <Index />,
             '/todos': <ToDo />,
@@ -95,10 +90,10 @@ function App() {
     return <div>
         {element}
         {$(() => (element().tag === Index)
-            ? null
+            ? ''
             : <button onclick={() => HashRouter.setRoute('/')}>Go back</button>
         )}
     </div>;
 }
 
-mount(document.getElementById('root'), <App />);
+render(<App />);

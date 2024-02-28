@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "ESNext",
+        "module": "NodeNext",
         "declaration": true,
         "allowSyntheticDefaultImports": true,
         "target": "ESNext",
@@ -10,6 +10,6 @@
         ],
         "jsx": "react",
         "jsxFactory": "h",
-        "moduleResolution": "nodenext"
+        "moduleResolution": "NodeNext"
     }
 }

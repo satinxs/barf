@@ -4,7 +4,7 @@ export type Observable<T> = {
     watch: (f: (v: T) => void, immediate?: boolean) => void;
 }
 
-const isFunction = (obj: any): obj is Function => typeof obj === 'function';
+const isFunction = (obj: any): obj is Function => typeof obj == 'function';
 const isObservable = <T>(obj: any): obj is Observable<T> => isFunction(obj) && 'watch' in obj;
 
 const computation = [];
@@ -30,13 +30,7 @@ export const $ = <T extends any>(v: T | Function): Observable<T> => {
     _func.watch = watch;
 
     if (isFunction(v)) {
-        const trigger = () => _func(v());
-
-        if (computation.includes(trigger))
-            throw new Error('Circular dependency');
-
-        computation.push(trigger);
-
+        computation.push(() => _func(v()));
         try { _func(v()); }
         finally { computation.pop(); }
     } else
@@ -50,11 +44,15 @@ export const h = (tag: any, props: Kvp, ...children: any[]) => ({ tag, props, ch
 
 type Element = HTMLElement | Text | DocumentFragment;
 
-export const render = (el: any, parent: HTMLElement | DocumentFragment, previousElement?: Element): Element => {
+const _d = document; //Alias to reduce size when minified :P
+export const render = (el: any, parent: HTMLElement | DocumentFragment = _d.body, previousElement?: Element): Element => {
+    if (isFunction(el?.tag))
+        return render(el.tag(el.props, el.children), parent, previousElement);
+
     let node: Element;
 
-    if (typeof el === 'object' && 'tag' in el) {
-        node = document.createElement(el.tag);
+    if (typeof el?.tag == 'string') {
+        node = _d.createElement(el.tag);
 
         if (el.props)
             for (const [key, value] of Object.entries(el.props)) {
@@ -76,7 +74,7 @@ export const render = (el: any, parent: HTMLElement | DocumentFragment, previous
                     render(child, node as HTMLElement);
             }
     } else if (Array.isArray(el)) {
-        node = document.createDocumentFragment();
+        node = _d.createDocumentFragment();
 
         for (const child of el)
             render(child, node);
@@ -84,7 +82,7 @@ export const render = (el: any, parent: HTMLElement | DocumentFragment, previous
         parent.replaceChildren(); //Clear parent children
         previousElement = null;
     } else
-        node = document.createTextNode(`${el}`);
+        node = _d.createTextNode(`${el}`);
 
     if (previousElement)
         parent.replaceChild(node, previousElement);
