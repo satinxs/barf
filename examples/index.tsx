@@ -1,4 +1,4 @@
-import { $, h, render, Observable } from '../barf';
+import { $, h, mount, Observable } from '../barf';
 import { HashRouter } from "@satinxs/router";
 import "simpledotcss/simple.css";
 
@@ -96,4 +96,4 @@ function App() {
     </div>;
 }
 
-render(<App />);
+mount(<App />);
